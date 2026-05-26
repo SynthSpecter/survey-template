@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Synthwave Survey</title>
+   <link rel="stylesheet" href="styles/main.css">
+   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+   <div class="container">
+      <header>
+         <h1>SYNTHWAVE SURVEY</h1>
+         <p>Un questionnaire rétro-futuriste et modulaire</p>
+      </header>
+
+      <div class="progress-container">
+         <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <!-- Conteneur dynamique pour les questions -->
+      <div id="survey-container"></div>
+
+      <!-- Message de fin -->
+      <div class="end-message" id="end-message">
+         <h2>Merci pour ta participation !</h2>
+         <p>Ton questionnaire synthwave est terminé.</p>
+         <button id="restart-btn">Recommencer</button>
+      </div>
+
+      <!-- Navigation -->
+      <div class="navigation">
+         <button id="prev-btn" disabled>Précédent</button>
+         <button id="next-btn">Suivant</button>
+      </div>
+   </div>
+
+   <!-- Scripts -->
+   <script src="scripts/questionTypes.js"></script>
+   <script src="scripts/survey.js"></script>
+</body>
+
+</html>
