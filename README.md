@@ -1,236 +1,206 @@
-# 🌌 Synthwave Survey
+# Synth Survey
 
-**Un template de questionnaire modulaire et stylisé en HTML/CSS/JS avec un design rétro-futuriste.**  
-**A modular and stylish survey template in HTML/CSS/JS with a retro-futuristic design.**
+Un modèle de questionnaire synthwave bilingue, accessible et entièrement local.
+A bilingual, accessible, and fully local synthwave survey template.
 
----
+## Français
 
-## 📌 **À propos / About**
+### Présentation
 
-### Français
+Synth Survey est un vrai parcours de questionnaire prêt à personnaliser, et non une simple succession de champs. Il accompagne la personne à travers six questions, conserve automatiquement son brouillon, permet une révision avant validation et produit un résumé accompagné d'une empreinte visuelle.
 
-**Synthwave Survey** est un template de questionnaire **modulaire et personnalisable**, conçu pour les développeurs qui veulent créer des sondages, quiz ou formulaires avec un **style synthwave** (néons, animations rétro, fond dynamique).  
-Idéal pour :
+L'application ne possède ni serveur métier, ni compte, ni outil de suivi. Les réponses restent dans le navigateur pendant la saisie. La validation efface le brouillon et l'export JSON n'a lieu que lorsque la personne clique sur le bouton correspondant.
 
-- Les projets personnels ou professionnels.
-- Les communautés de développeurs ou de fans de la culture rétro.
-- Les utilisateurs qui veulent un design unique et immersif.
+### Fonctionnalités
 
-### English
+- six questions déclarées dans un fichier de configuration ;
+- choix unique, choix multiples, texte libre et échelles numériques ;
+- validation adaptée à chaque type de réponse ;
+- réponses restaurées lors d'un retour à une question ;
+- brouillon automatique avec `localStorage` ;
+- écran de révision avant validation ;
+- résumé final et export JSON structuré ;
+- empreinte Canvas déterministe calculée localement ;
+- interface française et anglaise persistante ;
+- thèmes sombre et clair persistants ;
+- navigation au clavier et contrôles HTML natifs ;
+- mise en page responsive pour ordinateur, tablette et mobile ;
+- aucun paquet, aucune police et aucune ressource distante.
 
-**Synthwave Survey** is a **modular and customizable** survey template designed for developers who want to create polls, quizzes, or forms with a **synthwave style** (neon colors, retro animations, dynamic background).  
-Perfect for:
+### Démarrage
 
-- Personal or professional projects.
-- Developer communities or retro culture fans.
-- Users who want a unique and immersive design.
+Prérequis : Node.js 18 ou une version plus récente.
 
----
+```powershell
+git clone https://github.com/SynthSpecter/survey-template.git
+cd survey-template
+npm start
+```
 
-## 🛠 **Prérequis / Prerequisites**
+Ouvrez ensuite [http://127.0.0.1:4177](http://127.0.0.1:4177). Le petit serveur local est nécessaire pour charger proprement les modules JavaScript. Il ne collecte aucune donnée.
 
-### Français
+### Vérification
 
-- Un navigateur moderne (Chrome, Firefox, Edge, etc.).
-- Un éditeur de code (VSCode, Sublime Text, etc.).
-- Aucune dépendance externe (100% HTML/CSS/JS natif).
+```powershell
+npm run check
+```
 
-### English
+La commande vérifie notamment la configuration, les règles de validation, la stabilité de l'empreinte, les traductions, les ressources locales, les commentaires bilingues et les en-têtes du serveur.
 
-- A modern browser (Chrome, Firefox, Edge, etc.).
-- A code editor (VSCode, Sublime Text, etc.).
-- No external dependencies (100% vanilla HTML/CSS/JS).
+### Personnaliser le questionnaire
 
----
+Le point d'entrée le plus important est `scripts/surveyConfig.js`. Chaque question possède un identifiant stable, un type et des clés de traduction. Pour changer un libellé, modifiez les valeurs française et anglaise correspondantes dans `scripts/translations.js`.
 
-## 🚀 **Installation / Installation**
+Exemple minimal de question à choix unique :
 
-### Français
-
-1. **Cloner ou télécharger** le dépôt :
-
-   git clone https://github.com/ton-utilisateur/synthwave-survey.git
-
-_Ou télécharge le ZIP et extrais-le._
-
-2. **Ouvrir le projet** :
-
-- Navigue dans le dossier `synthwave-survey/`.
-- Ouvre `index.html` dans ton navigateur.
-
-3. **Personnaliser** :
-
-- Modifie `js/survey.js` pour ajouter/supprimer des questions.
-- Adapte les styles dans `css/style.css`.
-
-### English
-
-1. **Clone or download** the repository:
-
-   git clone https://github.com/your-username/synthwave-survey.git
-
-_Or download the ZIP and extract it._
-
-2. **Open the project**:
-
-- Navigate to the `synthwave-survey/` folder.
-- Open `index.html` in your browser.
-
-3. **Customize**:
-
-- Edit `js/survey.js` to add/remove questions.
-- Adjust styles in `css/style.css`.
-
----
-
-## ✨ **Fonctionnalités / Features**
-
-| **Fonctionnalité**          | **Description**                                                       | **Status**          |
-| --------------------------- | --------------------------------------------------------------------- | ------------------- |
-| **Multiple Question Types** | QCM (radio), cases à cocher (checkbox), champ texte, échelle (1-5).   | ✅ Implémenté       |
-| **Design Synthwave**        | Couleurs néon, animations rétro, fond dynamique.                      | ✅ Implémenté       |
-| **Navigation**              | Boutons Précédent/Suivant, barre de progression.                      | ✅ Implémenté       |
-| **Validation**              | Impossible de passer à la question suivante sans répondre.            | ✅ Implémenté       |
-| **Modularité**              | Ajout/suppression de questions via `surveyConfig`.                    | ✅ Implémenté       |
-| **Thèmes alternatifs**      | (À venir) Thèmes clairs/sombres.                                      | ⏳ En développement |
-| **Sauvegarde locale**       | (À venir) Stockage des réponses dans `localStorage`.                  | ⏳ En développement |
-| **Backend Integration**     | (À venir) Connexion à Firebase/Node.js pour sauvegarder les réponses. | ⏳ En développement |
-
-| **Feature**                 | **Description**                                         | **Status**     |
-| --------------------------- | ------------------------------------------------------- | -------------- |
-| **Multiple Question Types** | MCQ (radio), checkboxes, text input, scale (1-5).       | ✅ Implemented |
-| **Synthwave Design**        | Neon colors, retro animations, dynamic background.      | ✅ Implemented |
-| **Navigation**              | Previous/Next buttons, progress bar.                    | ✅ Implemented |
-| **Validation**              | Cannot proceed without answering.                       | ✅ Implemented |
-| **Modularity**              | Add/remove questions via `surveyConfig`.                | ✅ Implemented |
-| **Alternative Themes**      | (Upcoming) Light/dark themes.                           | ⏳ In Progress |
-| **Local Storage**           | (Upcoming) Save answers in `localStorage`.              | ⏳ In Progress |
-| **Backend Integration**     | (Upcoming) Connect to Firebase/Node.js to save answers. | ⏳ In Progress |
-
----
-
-## 🎨 **Personnalisation / Customization**
-
-### Français
-
-#### 1. **Ajouter une question**
-
-Dans `js/survey.js`, modifie le tableau `surveyConfig.questions` :
-
+```js
 {
-id: 5, // ID unique
-type: "TEXT", // Type de question (MULTIPLE_CHOICE, CHECKBOX, TEXT, SCALE)
-text: "Ta question ici",
-options: ["Option 1", "Option 2"] // Pour MULTIPLE_CHOICE ou CHECKBOX
-min: 1, // Pour SCALE
-max: 5 // Pour SCALE
+  id: 'environment',
+  type: 'SINGLE_CHOICE',
+  shortKey: 'stepEnvironment',
+  textKey: 'questionEnvironment',
+  descriptionKey: 'questionEnvironmentDescription',
+  required: true,
+  options: [
+    { value: 'web', labelKey: 'optionEnvironmentWeb', accent: 'cyan' },
+    { value: 'desktop', labelKey: 'optionEnvironmentDesktop', accent: 'pink' }
+  ]
 }
+```
 
-#### 2. **Ajouter un type de question**
+Ajoutez ensuite chacune des nouvelles clés dans les objets `fr` et `en` de `scripts/translations.js`. Les types disponibles sont `SINGLE_CHOICE`, `CHECKBOX`, `TEXT` et `SCALE`.
 
-Dans `js/questionTypes.js`, ajoute une nouvelle entrée à `QuestionTypes` :
+Augmentez `version` dans `scripts/surveyConfig.js` lorsque la structure des réponses change. Cela empêche un ancien brouillon incompatible d'être restauré.
 
-RATING: {
-render: (questionData) => { /_ HTML _/ },
-isAnswered: (questionId) => { /_ Logique de validation _/ },
-getAnswer: (questionId) => { /_ Récupérer la réponse _/ }
-}
+### Organisation des fichiers
 
-#### 3. **Modifier le design**
+| Fichier                    | Rôle                                                               |
+| -------------------------- | ------------------------------------------------------------------ |
+| `index.html`               | Structure sémantique, réglages globaux et dialogue de confirmation |
+| `scripts/bootstrap.js`     | Application du thème et de la langue avant le premier affichage    |
+| `scripts/surveyConfig.js`  | Contenu et règles du questionnaire                                 |
+| `scripts/questionTypes.js` | Création, normalisation et validation des champs                   |
+| `scripts/survey.js`        | Contrôleur de la session et navigation entre les écrans            |
+| `scripts/ui.js`            | Rendu sécurisé avec l'API DOM                                      |
+| `scripts/storage.js`       | Préférences et brouillon local                                     |
+| `scripts/translations.js`  | Textes français et anglais                                         |
+| `scripts/signalChart.js`   | Empreinte visuelle Canvas                                          |
+| `styles/main.css`          | Fondations, thèmes et composants communs                           |
+| `styles/survey.css`        | Parcours, questions, révision et résultat                          |
+| `styles/effects.css`       | Transitions et mouvement réduit                                    |
+| `server.js`                | Serveur statique local sans dépendance                             |
+| `scripts/check.js`         | Vérifications automatisées                                         |
 
-- **Couleurs** : Modifie les variables dans `css/style.css` (ex: `#FF2CED`, `#05D9E8`).
-- **Animations** : Ajoute des `@keyframes` ou utilise [Anime.js](https://animejs.com/).
+### Accessibilité et confidentialité
 
-#### 4. **Traduire l'interface**
+Les champs restent de vrais éléments `input` et `textarea`, même lorsque leur apparence est personnalisée. Les titres reçoivent le focus lors d'un changement d'étape, les erreurs sont annoncées, les boutons indisponibles sont désactivés et les animations respectent `prefers-reduced-motion`.
 
-- Modifie les textes dans `index.html` et `js/survey.js`.
+Le stockage local contient seulement les préférences et le brouillon courant. Aucun appel réseau applicatif n'est autorisé par la politique de sécurité du contenu. Ce projet est un modèle front-end : valider une réponse ne l'envoie pas à une base de données.
 
----
+### Limites connues
 
-### English
+- un effacement des données du navigateur supprime le brouillon ;
+- l'export doit être conservé manuellement par la personne ;
+- un stockage partagé ou des statistiques exigeraient un service backend et une politique de confidentialité adaptée ;
+- les navigateurs doivent prendre en charge les modules ES, `dialog`, `ResizeObserver` et le sélecteur CSS `:has()`.
 
-#### 1. **Add a Question**
+## English
 
-In `js/survey.js`, edit the `surveyConfig.questions` array:
+### Overview
 
+Synth Survey is a customizable survey journey, not merely a sequence of fields. It guides someone through six questions, automatically keeps a draft, offers a review before submission, and produces a summary with a visual fingerprint.
+
+The application has no business server, account system, or tracker. Responses remain in the browser while the survey is in progress. Submission clears the draft, and JSON export happens only when the person selects the corresponding button.
+
+### Features
+
+- six questions declared in a configuration file;
+- single choice, multiple choice, free text, and numeric scales;
+- validation tailored to every response type;
+- restored answers when returning to a question;
+- automatic drafts using `localStorage`;
+- a review screen before submission;
+- a final summary and structured JSON export;
+- a deterministic Canvas fingerprint calculated locally;
+- persistent French and English interfaces;
+- persistent dark and light themes;
+- keyboard navigation and native HTML controls;
+- responsive layouts for desktop, tablet, and mobile;
+- no package, font, or remote runtime asset.
+
+### Getting started
+
+Requirement: Node.js 18 or newer.
+
+```powershell
+git clone https://github.com/SynthSpecter/survey-template.git
+cd survey-template
+npm start
+```
+
+Then open [http://127.0.0.1:4177](http://127.0.0.1:4177). The small local server is needed to load JavaScript modules correctly. It does not collect data.
+
+### Verification
+
+```powershell
+npm run check
+```
+
+The command checks the configuration, validation rules, fingerprint stability, translations, local resources, bilingual comments, and server headers, among other safeguards.
+
+### Customizing the survey
+
+The most important entry point is `scripts/surveyConfig.js`. Every question has a stable identifier, a type, and translation keys. To change a label, edit the matching French and English values in `scripts/translations.js`.
+
+Minimal single-choice question example:
+
+```js
 {
-id: 5, // Unique ID
-type: "TEXT", // Question type (MULTIPLE_CHOICE, CHECKBOX, TEXT, SCALE)
-text: "Your question here",
-options: ["Option 1", "Option 2"] // For MULTIPLE_CHOICE or CHECKBOX
-min: 1, // For SCALE
-max: 5 // For SCALE
+  id: 'environment',
+  type: 'SINGLE_CHOICE',
+  shortKey: 'stepEnvironment',
+  textKey: 'questionEnvironment',
+  descriptionKey: 'questionEnvironmentDescription',
+  required: true,
+  options: [
+    { value: 'web', labelKey: 'optionEnvironmentWeb', accent: 'cyan' },
+    { value: 'desktop', labelKey: 'optionEnvironmentDesktop', accent: 'pink' }
+  ]
 }
+```
 
-#### 2. **Add a Question Type**
+Then add every new key to both the `fr` and `en` objects in `scripts/i18n.js`. Available types are `SINGLE_CHOICE`, `CHECKBOX`, `TEXT`, and `SCALE`.
 
-In `js/questionTypes.js`, add a new entry to `QuestionTypes`:
+Increase `version` in `scripts/surveyConfig.js` whenever the response structure changes. This prevents an incompatible old draft from being restored.
 
-RATING: {
-render: (questionData) => { /_ HTML _/ },
-isAnswered: (questionId) => { /_ Validation logic _/ },
-getAnswer: (questionId) => { /_ Get answer _/ }
-}
+### File map
 
-#### 3. **Change the Design**
+| File                       | Purpose                                                      |
+| -------------------------- | ------------------------------------------------------------ |
+| `index.html`               | Semantic structure, global settings, and confirmation dialog |
+| `scripts/bootstrap.js`     | Theme and language application before first paint            |
+| `scripts/surveyConfig.js`  | Survey content and rules                                     |
+| `scripts/questionTypes.js` | Field creation, normalization, and validation                |
+| `scripts/survey.js`        | Session controller and screen navigation                     |
+| `scripts/ui.js`            | Safe rendering with the DOM API                              |
+| `scripts/storage.js`       | Preferences and local draft                                  |
+| `scripts/translations.js`  | French and English copy                                      |
+| `scripts/signalChart.js`   | Canvas visual fingerprint                                    |
+| `styles/main.css`          | Foundations, themes, and shared components                   |
+| `styles/survey.css`        | Journey, questions, review, and result                       |
+| `styles/effects.css`       | Transitions and reduced motion                               |
+| `server.js`                | Dependency-free local static server                          |
+| `scripts/check.js`         | Automated checks                                             |
 
-- **Colors**: Edit variables in `css/style.css` (e.g., `#FF2CED`, `#05D9E8`).
-- **Animations**: Add `@keyframes` or use [Anime.js](https://animejs.com/).
+### Accessibility and privacy
 
-#### 4. **Translate the UI**
+Fields remain real `input` and `textarea` elements even when their appearance is customized. Headings receive focus after a step change, errors are announced, unavailable buttons are disabled, and animations honor `prefers-reduced-motion`.
 
-- Edit texts in `index.html` and `js/survey.js`.
+Local storage contains only preferences and the current draft. The content security policy disallows application network calls. This project is a front-end template: submitting responses does not send them to a database.
 
----
+### Known limitations
 
-## 🤝 **Contribuer / Contributing**
-
-### Français
-
-Les contributions sont les bienvenues ! Voici comment contribuer :
-
-1. **Fork** le projet.
-2. Crée une **branche** pour ta fonctionnalité (`git checkout -b feature/ma-fonctionnalité`).
-3. **Commit** tes changements (`git commit -m "Ajout de ma fonctionnalité"`).
-4. **Push** vers la branche (`git push origin feature/ma-fonctionnalité`).
-5. Ouvre une **Pull Request**.
-
-**Règles** :
-
-- Respecte le style de code existant.
-- Ajoute des commentaires pour les parties complexes.
-- Teste tes modifications avant de soumettre.
-
-### English
-
-Contributions are welcome! Here’s how to contribute:
-
-1. **Fork** the project.
-2. Create a **branch** for your feature (`git checkout -b feature/my-feature`).
-3. **Commit** your changes (`git commit -m "Add my feature"`).
-4. **Push** to the branch (`git push origin feature/my-feature`).
-5. Open a **Pull Request**.
-
-**Rules**:
-
-- Follow the existing code style.
-- Add comments for complex parts.
-- Test your changes before submitting.
-
----
-
-## 🙌 **Remerciements / Acknowledgments**
-
-- **Inspiration** : Culture synthwave, design rétro, et outils comme [Anime.js](https://animejs.com/).
-- **Polices** : [Orbitron](https://fonts.google.com/specimen/Orbitron) (Google Fonts).
-- **Contributeurs** : Merci à tous ceux qui amélioreront ce projet !
-
----
-
-## 📧 **Contact / Contact**
-
-- **Auteur** : [Kévin Thouroude-Leroux]
-- **Questions** : Ouvre une _issue_ ou contacte-moi directement !
-- **Mail** : kev.tl63@gmail.com
-
----
+- clearing browser data removes the draft;
+- the exported file must be kept manually by the person;
+- shared storage or analytics would require a backend service and an appropriate privacy policy;
+- browsers must support ES modules, `dialog`, `ResizeObserver`, and the CSS `:has()` selector.

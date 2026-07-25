@@ -1,0 +1,14 @@
+{
+  "name": "survey-template",
+  "version": "2.0.0",
+  "description": "A bilingual, accessible, and privacy-first synthwave survey template.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node scripts/check.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

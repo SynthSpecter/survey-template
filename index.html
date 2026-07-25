@@ -1,45 +1,159 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html lang="fr" data-theme="dark">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+      name="description"
+      content="Synth Survey est un modèle bilingue de questionnaire synthwave, local et accessible."
+    >
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    >
+    <title>Synth Survey</title>
 
-<head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Synthwave Survey</title>
-   <link rel="stylesheet" href="styles/main.css">
-   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-</head>
+    <!-- FR : Les préférences sont appliquées avant le rendu pour éviter un flash de thème. -->
+    <!-- EN: Preferences are applied before rendering to prevent a theme flash. -->
+    <script src="./scripts/bootstrap.js"></script>
 
-<body>
-   <div class="container">
-      <header>
-         <h1>SYNTHWAVE SURVEY</h1>
-         <p>Un questionnaire rétro-futuriste et modulaire</p>
+    <!-- FR : Les styles séparent fondations, expérience du questionnaire et mouvements. -->
+    <!-- EN: Styles separate foundations, the survey experience, and motion. -->
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/survey.css">
+    <link rel="stylesheet" href="./styles/effects.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content" data-i18n="skipToContent">Aller au questionnaire</a>
+
+    <div class="app-shell">
+      <!-- FR : L'en-tête rassemble l'identité et les réglages globaux persistants. -->
+      <!-- EN: The header brings together identity and persistent global settings. -->
+      <header class="topbar">
+        <div class="brand" aria-label="Synth Survey">
+          <span class="brand-mark" aria-hidden="true">SS</span>
+          <span class="brand-copy">
+            <strong>SYNTH SURVEY</strong>
+            <small data-i18n="brandTagline">Questionnaire local</small>
+          </span>
+        </div>
+
+        <div class="local-status" aria-live="polite">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span data-i18n="localDraftStatus">Brouillon local</span>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="segmented-control" role="group" data-i18n-aria-label="languageLabel">
+            <button class="segment-button" type="button" data-language="fr" aria-pressed="true">FR</button>
+            <button class="segment-button" type="button" data-language="en" aria-pressed="false">EN</button>
+          </div>
+          <button
+            class="icon-button"
+            id="theme-toggle"
+            type="button"
+            data-i18n-aria-label="toggleTheme"
+            data-i18n-title="toggleTheme"
+            aria-label="Changer de thème"
+            title="Changer de thème"
+          >
+            <span class="theme-glyph theme-glyph-dark" aria-hidden="true">☾</span>
+            <span class="theme-glyph theme-glyph-light" aria-hidden="true">☼</span>
+          </button>
+        </div>
       </header>
 
-      <div class="progress-container">
-         <div class="progress-bar" id="progress-bar"></div>
+      <main class="survey-workspace" id="main-content">
+        <!-- FR : Le parcours latéral donne une vision stable de l'avancement et du brouillon. -->
+        <!-- EN: The journey rail provides a stable view of progress and draft state. -->
+        <aside class="journey-panel" aria-labelledby="survey-title">
+          <div class="survey-intro">
+            <p class="eyebrow" data-i18n="demoSurveyEyebrow">QUESTIONNAIRE DÉMO</p>
+            <h2 id="survey-title">Impulsion créative</h2>
+            <p id="survey-description">Un instantané de votre manière de créer et de collaborer.</p>
+          </div>
+
+          <section class="progress-block" aria-labelledby="progress-label">
+            <div class="progress-heading">
+              <span id="progress-label" data-i18n="progressLabel">Progression</span>
+              <strong id="progress-count">1 / 6</strong>
+            </div>
+            <div
+              class="progress-track"
+              id="progress-track"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <span id="progress-fill"></span>
+            </div>
+          </section>
+
+          <nav class="step-navigation" data-i18n-aria-label="stepsLabel" aria-label="Étapes du questionnaire">
+            <ol id="step-list"></ol>
+          </nav>
+
+          <section class="session-block" aria-labelledby="session-title">
+            <h3 id="session-title" data-i18n="sessionTitle">Cette session</h3>
+            <p class="draft-state" id="draft-state" aria-live="polite">Aucun brouillon enregistré</p>
+            <button class="quiet-button" id="reset-draft" type="button" data-i18n="resetDraftButton">
+              Effacer le brouillon
+            </button>
+          </section>
+
+          <div class="privacy-note">
+            <span class="privacy-mark" aria-hidden="true">◎</span>
+            <div>
+              <strong data-i18n="privacyTitle">Réponses privées</strong>
+              <p data-i18n="privacyText">Elles restent dans ce navigateur jusqu’à la validation.</p>
+            </div>
+          </div>
+        </aside>
+
+        <!-- FR : Une seule vue active garde l'attention sur la question, la révision ou le résultat. -->
+        <!-- EN: One active view keeps attention on the question, review, or result. -->
+        <section class="survey-panel" aria-labelledby="view-title">
+          <header class="view-header">
+            <p class="eyebrow" id="view-eyebrow">QUESTION 1 SUR 6</p>
+            <h1 id="view-title" tabindex="-1">Chargement…</h1>
+            <p id="view-description"></p>
+          </header>
+
+          <div class="screen-content" id="screen-content"></div>
+
+          <p class="validation-message" id="validation-message" role="alert" tabindex="-1" hidden></p>
+
+          <footer class="survey-navigation" id="survey-navigation">
+            <button class="secondary-button" id="back-button" type="button" data-i18n="backButton">Précédent</button>
+            <button class="primary-button" id="next-button" type="button" data-i18n="nextButton">Suivant</button>
+          </footer>
+        </section>
+      </main>
+    </div>
+
+    <!-- FR : Cette confirmation évite d'effacer un brouillon par erreur. -->
+    <!-- EN: This confirmation prevents accidentally deleting a draft. -->
+    <dialog class="confirm-dialog" id="reset-dialog" aria-labelledby="reset-dialog-title">
+      <div class="dialog-copy">
+        <p class="eyebrow" data-i18n="resetEyebrow">NOUVELLE SESSION</p>
+        <h2 id="reset-dialog-title" data-i18n="resetDialogTitle">Effacer le brouillon ?</h2>
+        <p data-i18n="resetDialogText">Toutes les réponses de cette session seront supprimées de ce navigateur.</p>
       </div>
-
-      <!-- Conteneur dynamique pour les questions -->
-      <div id="survey-container"></div>
-
-      <!-- Message de fin -->
-      <div class="end-message" id="end-message">
-         <h2>Merci pour ta participation !</h2>
-         <p>Ton questionnaire synthwave est terminé.</p>
-         <button id="restart-btn">Recommencer</button>
+      <div class="dialog-actions">
+        <button class="secondary-button" id="cancel-reset" type="button" data-i18n="cancelButton">Annuler</button>
+        <button class="danger-button" id="confirm-reset" type="button" data-i18n="confirmResetButton">Effacer</button>
       </div>
+    </dialog>
 
-      <!-- Navigation -->
-      <div class="navigation">
-         <button id="prev-btn" disabled>Précédent</button>
-         <button id="next-btn">Suivant</button>
-      </div>
-   </div>
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
 
-   <!-- Scripts -->
-   <script src="scripts/questionTypes.js"></script>
-   <script src="scripts/survey.js"></script>
-</body>
+    <noscript>
+      <p class="noscript-message">Synth Survey nécessite JavaScript / Synth Survey requires JavaScript.</p>
+    </noscript>
 
+    <!-- FR : Le module principal démarre le questionnaire après la construction du document. -->
+    <!-- EN: The main module starts the survey after the document has been built. -->
+    <script type="module" src="./scripts/survey.js"></script>
+  </body>
 </html>

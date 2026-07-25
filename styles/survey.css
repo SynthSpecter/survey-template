@@ -1,0 +1,768 @@
+/*
+ * FR : Ce fichier organise le parcours, les questions, la révision et le résultat.
+ * EN: This file lays out the journey, questions, review, and result.
+ */
+
+.survey-workspace {
+  display: grid;
+  grid-template-columns: 296px minmax(0, 1fr);
+  height: calc(100vh - var(--topbar-height));
+  min-height: 0;
+  max-width: 1540px;
+  margin: 0 auto;
+  border-inline: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-panel);
+}
+
+/* FR : Le rail latéral reste scannable pendant une session longue. */
+/* EN: The side rail stays scannable during a long session. */
+.journey-panel {
+  min-width: 0;
+  overflow-y: auto;
+  padding: 26px 22px 22px;
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+.survey-intro h2 {
+  margin: 8px 0 6px;
+  color: var(--color-text);
+  font-family: "Arial Black", "Segoe UI", sans-serif;
+  font-size: 1.28rem;
+  line-height: 1.2;
+}
+
+.survey-intro > p:last-child {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.progress-block {
+  margin-top: 24px;
+}
+
+.progress-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--color-text-muted);
+  font-size: 0.76rem;
+}
+
+.progress-heading strong {
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-track {
+  height: 5px;
+  margin-top: 9px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--color-border);
+}
+
+.progress-track span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-cyan), var(--color-pink), var(--color-amber));
+}
+
+.step-navigation {
+  margin-top: 23px;
+}
+
+.step-navigation ol {
+  display: grid;
+  gap: 3px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.step-button {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 10px;
+  align-items: center;
+  width: 100%;
+  min-height: 42px;
+  gap: 8px;
+  padding: 6px 8px;
+  border-left: 2px solid transparent;
+  border-radius: var(--radius-small);
+  color: var(--color-text-muted);
+  background: transparent;
+  text-align: left;
+}
+
+.step-button:not(:disabled):hover {
+  color: var(--color-text);
+  background: var(--color-surface-raised);
+}
+
+.step-button[data-state="current"] {
+  border-left-color: var(--color-pink);
+  color: var(--color-text);
+  background: var(--color-surface-raised);
+}
+
+.step-button:disabled {
+  opacity: 0.58;
+}
+
+.step-number {
+  color: var(--color-text-subtle);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.step-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 0.79rem;
+  font-weight: 700;
+}
+
+.step-marker {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 50%;
+}
+
+.step-button[data-state="answered"] .step-marker {
+  border-color: var(--color-green);
+  background: var(--color-green);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--color-green) 55%, transparent);
+}
+
+.step-button[data-state="current"] .step-marker {
+  border-color: var(--color-pink);
+  background: var(--color-pink);
+}
+
+.session-block {
+  padding-top: 18px;
+  margin-top: 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.session-block h3 {
+  margin: 0;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+}
+
+.draft-state {
+  min-height: 38px;
+  margin: 6px 0 4px;
+  color: var(--color-text-muted);
+  font-size: 0.76rem;
+}
+
+.session-block .quiet-button {
+  padding-left: 0;
+  font-size: 0.76rem;
+}
+
+.privacy-note {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 8px;
+  padding-top: 18px;
+  margin-top: 12px;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.privacy-mark {
+  color: var(--color-green);
+  font-size: 1rem;
+}
+
+.privacy-note strong {
+  color: var(--color-text);
+}
+
+.privacy-note p {
+  margin: 3px 0 0;
+}
+
+/* FR : Le panneau principal réserve une largeur confortable à la lecture et aux contrôles. */
+/* EN: The main panel reserves a comfortable width for reading and controls. */
+.survey-panel {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  padding: 40px clamp(28px, 6vw, 88px) 0;
+  overflow-y: auto;
+  flex-direction: column;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+.view-header,
+.screen-content,
+.validation-message,
+.survey-navigation {
+  width: min(100%, 880px);
+  margin-inline: auto;
+}
+
+.view-header h1 {
+  margin: 9px 0 8px;
+  max-width: 760px;
+  font-family: "Arial Black", "Segoe UI", sans-serif;
+  font-size: clamp(1.65rem, 3.5vh, 2.45rem);
+  line-height: 1.14;
+  overflow-wrap: anywhere;
+}
+
+/* FR : Le titre reçoit le focus pour les lecteurs d'écran sans devenir un faux contrôle. */
+/* EN: The heading receives focus for screen readers without looking like a fake control. */
+.view-header h1:focus {
+  outline: none;
+}
+
+.view-header > p:last-child {
+  max-width: 720px;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.screen-content {
+  display: flex;
+  flex: 1 0 auto;
+  padding: 30px 0 36px;
+  flex-direction: column;
+}
+
+.question-fieldset {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.question-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.type-label,
+.required-label {
+  padding: 4px 7px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  color: var(--color-text-muted);
+  background: var(--color-surface-raised);
+  font-size: 0.68rem;
+  font-weight: 750;
+}
+
+.required-label {
+  border-color: color-mix(in srgb, var(--color-pink) 48%, var(--color-border));
+  color: var(--color-pink);
+}
+
+.control-stack {
+  display: grid;
+  gap: 10px;
+}
+
+.option-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.option-card {
+  --option-accent: var(--color-cyan);
+  position: relative;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: center;
+  min-height: 66px;
+  gap: 11px;
+  padding: 13px 14px;
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--option-accent);
+  border-radius: var(--radius-medium);
+  color: var(--color-text);
+  background: var(--color-surface-raised);
+}
+
+.option-card:hover {
+  border-color: color-mix(in srgb, var(--option-accent) 62%, var(--color-border));
+  background: color-mix(in srgb, var(--option-accent) 7%, var(--color-surface-raised));
+}
+
+.option-card:has(.choice-input:checked) {
+  border-color: var(--option-accent);
+  background: color-mix(in srgb, var(--option-accent) 12%, var(--color-surface-raised));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--option-accent) 32%, transparent);
+}
+
+.option-card:has(.choice-input:focus-visible) {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.option-card:has(.choice-input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.accent-pink {
+  --option-accent: var(--color-pink);
+}
+
+.accent-amber {
+  --option-accent: var(--color-amber);
+}
+
+.accent-green {
+  --option-accent: var(--color-green);
+}
+
+.accent-violet {
+  --option-accent: var(--color-violet);
+}
+
+.choice-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.choice-indicator {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border: 2px solid var(--color-border-strong);
+  border-radius: 50%;
+  background: var(--color-surface);
+}
+
+.option-card:has(input[type="checkbox"]) .choice-indicator {
+  border-radius: 3px;
+}
+
+.choice-input:checked + .choice-indicator {
+  border: 5px solid var(--option-accent);
+}
+
+.option-card:has(input[type="checkbox"]:checked) .choice-indicator {
+  border-width: 2px;
+  background: var(--option-accent);
+  box-shadow: inset 0 0 0 3px var(--color-surface);
+}
+
+.option-copy {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 0.9rem;
+  font-weight: 720;
+}
+
+.control-helper,
+.character-counter {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.text-control {
+  position: relative;
+}
+
+.text-control textarea {
+  display: block;
+  width: 100%;
+  min-height: 148px;
+  padding: 14px 14px 34px;
+  resize: vertical;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-medium);
+  color: var(--color-text);
+  background: var(--color-surface-raised);
+  line-height: 1.55;
+}
+
+.text-control textarea::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.text-control textarea:focus-visible {
+  border-color: var(--color-cyan);
+}
+
+.character-counter {
+  position: absolute;
+  right: 12px;
+  bottom: 9px;
+}
+
+.scale-control {
+  display: grid;
+  gap: 9px;
+}
+
+.scale-scroller {
+  overflow-x: auto;
+  padding: 4px 3px 10px;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+.scale-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--scale-steps), minmax(48px, 1fr));
+  min-width: calc(var(--scale-steps) * 48px);
+  gap: 7px;
+}
+
+.scale-option {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  height: 52px;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+  color: var(--color-text-muted);
+  background: var(--color-surface-raised);
+  font-size: 0.9rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.scale-option:hover {
+  border-color: var(--color-cyan);
+  color: var(--color-text);
+}
+
+.scale-option:has(.choice-input:checked) {
+  border-color: var(--color-pink);
+  color: #ffffff;
+  background: var(--color-pink);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--color-pink) 22%, transparent);
+}
+
+.scale-option:has(.choice-input:focus-visible) {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.scale-endpoints {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  color: var(--color-text-muted);
+  font-size: 0.76rem;
+}
+
+.scale-endpoints span:last-child {
+  text-align: right;
+}
+
+.validation-message {
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border: 1px solid color-mix(in srgb, var(--color-red) 60%, var(--color-border));
+  border-left: 3px solid var(--color-red);
+  border-radius: var(--radius-small);
+  color: var(--color-red);
+  background: color-mix(in srgb, var(--color-red) 8%, var(--color-surface));
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.survey-navigation {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0 20px;
+  border-top: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.survey-navigation[hidden] {
+  display: none;
+}
+
+.survey-navigation button {
+  min-width: 118px;
+}
+
+/* FR : La révision expose toutes les réponses sans imbriquer de panneaux décoratifs. */
+/* EN: Review exposes every response without nesting decorative panels. */
+.review-list {
+  display: grid;
+  gap: 9px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.review-item {
+  padding: 14px 15px;
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-violet);
+  border-radius: var(--radius-medium);
+  background: var(--color-surface-raised);
+}
+
+.review-item:nth-child(2n) {
+  border-left-color: var(--color-cyan);
+}
+
+.review-item:nth-child(3n) {
+  border-left-color: var(--color-pink);
+}
+
+.review-heading {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 9px;
+}
+
+.review-heading h2 {
+  margin: 2px 0 0;
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.review-number {
+  margin-top: 3px;
+  color: var(--color-text-subtle);
+  font-size: 0.68rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.review-heading .quiet-button {
+  min-height: 28px;
+  padding: 2px;
+  font-size: 0.72rem;
+}
+
+.review-answer {
+  margin: 8px 0 0 37px;
+  color: var(--color-text-muted);
+  font-size: 0.84rem;
+  overflow-wrap: anywhere;
+}
+
+/* FR : Le résultat combine une visualisation réelle et un résumé exportable. */
+/* EN: The result combines a real visualization and an exportable summary. */
+.completion-layout {
+  display: grid;
+  gap: 24px;
+}
+
+.completion-meta {
+  color: var(--color-green);
+  font-size: 0.82rem;
+}
+
+.signal-section h2,
+.response-summary h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.signal-section > p {
+  margin: 4px 0 12px;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+}
+
+.signal-frame {
+  width: 100%;
+  min-height: 230px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+  background-color: var(--color-surface-soft);
+  background-image:
+    linear-gradient(rgba(53, 219, 229, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 88, 183, 0.03) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.signal-frame canvas {
+  display: block;
+  width: 100%;
+  height: 230px;
+}
+
+.completion-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.response-list {
+  margin: 10px 0 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.response-list > div {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.45fr) minmax(0, 1fr);
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.response-list dt {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.response-list dd {
+  min-width: 0;
+  margin: 0;
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 980px) {
+  .survey-workspace {
+    grid-template-columns: 248px minmax(0, 1fr);
+  }
+
+  .journey-panel {
+    padding-inline: 17px;
+  }
+
+  .survey-panel {
+    padding-inline: 28px;
+  }
+}
+
+@media (max-width: 760px) {
+  .survey-workspace {
+    display: block;
+    height: auto;
+    min-height: calc(100vh - 58px);
+    border-inline: 0;
+  }
+
+  .journey-panel {
+    overflow: visible;
+    padding: 17px 16px 15px;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .survey-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 4px 16px;
+  }
+
+  .survey-intro .eyebrow,
+  .survey-intro > p:last-child {
+    display: none;
+  }
+
+  .survey-intro h2 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .progress-block {
+    margin-top: 10px;
+  }
+
+  .step-navigation,
+  .session-block,
+  .privacy-note {
+    display: none;
+  }
+
+  .survey-panel {
+    min-height: calc(100vh - 132px);
+    padding: 26px 17px 0;
+    overflow: visible;
+  }
+
+  .view-header h1 {
+    font-size: 1.62rem;
+  }
+
+  .screen-content {
+    padding-block: 24px 28px;
+  }
+
+  .survey-navigation {
+    bottom: 0;
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 560px) {
+  .option-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .option-card {
+    min-height: 58px;
+  }
+
+  .review-heading {
+    grid-template-columns: 24px minmax(0, 1fr);
+  }
+
+  .review-heading .quiet-button {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .review-answer {
+    margin-left: 33px;
+  }
+
+  .response-list > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px;
+  }
+}
+
+@media (max-width: 390px) {
+  .survey-panel {
+    padding-inline: 13px;
+  }
+
+  .survey-navigation button {
+    min-width: 0;
+    flex: 1 1 0;
+    padding-inline: 10px;
+  }
+
+  .completion-actions {
+    display: grid;
+  }
+}
